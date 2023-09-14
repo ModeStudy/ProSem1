@@ -9,7 +9,10 @@ int main()
     while (breaker != 0)
     {
         cin>>lentador;
+        if(lentador % 2 == 0)
+        {
         suma += lentador;
+        }
         if(lentador==0)
         {
             breaker = 0;
@@ -18,5 +21,6 @@ int main()
     }
     
     cout<<"La sumatoria de los numeros ingresados fue: "<<suma<<endl;
+
     return 0; 
 }
