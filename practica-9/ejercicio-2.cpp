@@ -19,7 +19,7 @@ int main()
             
     }
     
-    cout<<"el promedio redondeado de los números ingresados fue: "<<suma/contador<<endl;
+    cout<<"el promedio de los números ingresados fue: "<<suma/contador<<endl;
 
     return 0; 
 }
