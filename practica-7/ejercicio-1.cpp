@@ -3,7 +3,7 @@ using namespace std;
 
 int main()
 {
-    int desde = 1, hasta = 19;
+    int desde = 10, hasta = 20;
 
     if(desde % 2 != 0)
         desde += 1;
