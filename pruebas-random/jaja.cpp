@@ -1,14 +1,10 @@
 #include<iostream>
+#include<string>
 using namespace std;
 
 int main()
-{ 
-    int a = 0;
-    for (char i = 'a'; a < 10; i = 'a')
-    {
-        cout<<a;
-        a++;
-    }
-    
+{
+    string hola = "mañana hace sol";
+    cout<<hola.substr(13,3)<<endl;
     return 0;
 }
