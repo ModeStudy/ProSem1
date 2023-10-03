@@ -2,7 +2,7 @@
 #include<string>
 using namespace std;
 string peliculas[5];
-int peliActual= 0;
+int peliActual= 0; //indica la posición del array peliculas donse se guardara el valor
 bool ListaLlena = false;
 
 void menu()
@@ -16,25 +16,26 @@ void menu()
 
 void agregarMovie()
 {
-    int nuevaPeli;
-    do
+    int nuevaPelicula;
+    while(!ListaLlena) //si la lista no se ha llenado
     {
-        cout<<"¿Qué película deseas agregar?"<<endl;
-        cin>>peliculas[peliActual];
-        peliActual++;
-        if(!ListaLlena)
+        
+        if(peliActual < 5)
         {
-            cout<<"Deseas agregar una nueva película 1-Si / 2-No"<<endl;
-            cin>>nuevaPeli;
+            cout<<"¿Qué película deseas agregar?"<<endl;
+            cin>>peliculas[peliActual];
+            peliActual++;
+            cout<<"¿Deseas agregar otra pelicula? 1-Si / 2-No"<<endl;
+            cin>>nuevaPelicula;
+            if(nuevaPelicula == 2)
+                break;
         }
-        else if(peliActual == 6)
+        else
         {
             cout<<"ya no hay mas espacios para las peliculas"<<endl;
             ListaLlena = true;
-            nuevaPeli = 0;
         }
-        
-    } while (nuevaPeli == 1);
+    } 
 }
 
 void mostrarMovies()
@@ -61,10 +62,11 @@ void eliminarMovies()
 int main()
 {
     int opc;
-    menu();
-    cin>>opc;
+    
     do
     {
+        menu();
+        cin>>opc;
         switch (opc)
         {
         case 1:
