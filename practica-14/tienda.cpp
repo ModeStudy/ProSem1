@@ -36,6 +36,26 @@ void eleminarProducto()
     costo[indiceProducto-1] = 0;
 
 }
+void modificarCosto()
+{
+    int indiceProducto;
+    mostrar();
+    cout<<"Cual costo deseas modificar: "<<endl;
+    cin>>indiceProducto;
+    cout<<"Que precio deseas asginar: "<<endl;
+    cin>>costo[indiceProducto-1];
+
+}
+void modificarNombre()
+{
+    int indiceProducto;
+    mostrar();
+    cout<<"Cual nombre deseas modificar: "<<endl;
+    cin>>indiceProducto;
+    cout<<"Que nombre deseas asginar: "<<endl;
+    cin.ignore();
+    getline(cin,producto[indiceProducto-1]);
+}
 int main()
 {
     int menu = 1;
@@ -52,17 +72,27 @@ int main()
         cin.ignore();
         switch(menu)
         {
+            case 0:
+                cout<<"Adios :("<<endl;
+                break;
             case 1:
                 agregarProducto();
                 break;
             case 3:
                 mostrar();
                 break;
+            case 4:
+                modificarNombre();
+                break;
+            case 5:
+                modificarCosto();
+                break;
             case 6:
                 eleminarProducto();
                 break;
+            default:
+                break;   
         }
-
     }
     return 0;
 }
