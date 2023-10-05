@@ -3,6 +3,10 @@ using namespace std;
 string producto[30];
     float costo[30];
     int contador=0;
+//arrays de la venta
+string productoVenta[30];
+int cantidadVenta[30];
+int cantidad, contadorVenta = 0;
 
 void agregarProducto()
 {
@@ -56,6 +60,46 @@ void modificarNombre()
     cin.ignore();
     getline(cin,producto[indiceProducto-1]);
 }
+
+void cobroVenta()
+{
+    int costoTotal = 0;
+    cout<<"Tu cuenta es: "<<endl;
+    for(int i= 0; i<contadorVenta; i++)
+    {
+        cout<<productoVenta[i]<<" total $"<<cantidadVenta[i]<<endl;
+        costoTotal += cantidadVenta[i];
+    }
+    cout<<"Importe: "<<costoTotal<<endl;
+}
+
+void creacionVenta()
+{
+    int indiceProducto, cantidad, nuevoProducto;
+    do
+    {
+        if(contadorVenta<30)
+        {
+        mostrar();
+        cout<<"Que deseás comprar: "<<endl;
+        cin>>indiceProducto;
+        cout<<"Cuantos deseás comprar"<<endl;
+        cin>>cantidad;
+        productoVenta[contadorVenta] = producto[indiceProducto-1];
+        cantidadVenta[contadorVenta] = cantidad * costo[indiceProducto-1]; 
+        contadorVenta++;
+        cout<<"Deseas agregar un nuevo producto a la compra 1-Si / 2-No"<<endl;
+        cin>>nuevoProducto;
+        }
+        else
+        {
+            cout<<"Ya se seleccionaron todos los productos"<<endl;
+            nuevoProducto = 0;
+        }
+    } while (nuevoProducto == 1);
+    cobroVenta();
+}
+
 int main()
 {
     int menu = 1;
@@ -77,6 +121,9 @@ int main()
                 break;
             case 1:
                 agregarProducto();
+                break;
+            case 2:
+                creacionVenta();
                 break;
             case 3:
                 mostrar();
