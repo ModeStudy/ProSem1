@@ -103,7 +103,7 @@ void mostrarProductosDisponibles()
         {
             if(producto[i] == productoVenta[j] && producto[i]== "")
             {
-                cout<<i+1<<"- "<<"Inexistente"<<endl;
+               
                 disponible = false;
                 break;
             }
