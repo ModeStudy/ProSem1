@@ -25,7 +25,6 @@ void agregarProducto(string *nombre,float *costo,float *inventario,int *contador
 // Función para mostrar el catálogo de productos
 void mostrar(string *nombre,float *costo,float *inventario,int contador)
 {
-    cout<<"si me llamo y contador vale"<<contador<<endl;
     for (int i = 0; i < contador; i++)
     {
         
@@ -35,56 +34,54 @@ void mostrar(string *nombre,float *costo,float *inventario,int contador)
 
 // Función para eliminar un producto del catálogo
 
-/*
-void eleminarProducto()
+
+void eleminarProducto(string *nombre,float *costo,float *inventario,int contador)
 {
     int indiceProducto;
-    mostrar();
+    mostrar(nombre, costo, inventario, contador);
     cout << "Cuál deseas eliminar: " << endl;
     cin >> indiceProducto;
 
     // Marcar el producto como "ELIMINADO" y establecer su costo a 0
-    producto[indiceProducto - 1] = "ELIMINADO";
+    nombre[indiceProducto - 1] = "ELIMINADO";
     costo[indiceProducto - 1] = 0;
 }
 
 // Función para modificar el costo de un producto en el catálogo
-void modificarCosto()
+void modificarCosto(string *nombre,float *costo,float *inventario,int contador)
 {
     int indiceProducto;
-    mostrar();
+    mostrar(nombre, costo, inventario, contador);
     cout << "Cuál costo deseas modificar: " << endl;
     cin >> indiceProducto;
     cout << "Qué precio deseas asignar: " << endl;
     cin >> costo[indiceProducto - 1];
 }
-
 // Función para modificar el nombre de un producto en el catálogo
-void modificarNombre()
+void modificarNombre(string *nombre,float *costo,float *inventario,int contador)
 {
     int indiceProducto;
-    mostrar();
+    mostrar(nombre, costo, inventario, contador);
     cout << "Cuál nombre deseas modificar: " << endl;
     cin >> indiceProducto;
     cout << "Qué nombre deseas asignar: " << endl;
     cin.ignore();
-    getline(cin, producto[indiceProducto - 1]);
+    getline(cin, nombre[indiceProducto - 1]);
 }
-
 // Función para realizar una venta
-void finalizarVentaSistema()
+void finalizarVentaSistema(string *productoVenta, float *cantidadVenta)
 {
-    contadorVenta = 0;
     for(int i= 0; i<30; i++){
         productoVenta[i] = "";
         cantidadVenta[i] = 0;
     }
 }
-void cobroVenta()
+
+void cobroVenta(int *contadorVenta, string *productoVenta, float *cantidadVenta)
 {
     float costoTotal = 0;
     cout << "Tu cuenta es: " << endl;
-    for (int i = 0; i < contadorVenta; i++)
+    for (int i = 0; i < *contadorVenta; i++)
     {
         cout << productoVenta[i] << " total $" << cantidadVenta[i] << endl;
         costoTotal += cantidadVenta[i];
@@ -92,21 +89,20 @@ void cobroVenta()
     cout << "Importe: $" << costoTotal << endl;
 }
 
-void mostrarProductosDisponibles()
+void mostrarProductosDisponibles(int *contadorVentas, string *NombresProductos, string *NombresElegidos, float *costo)
 {
     bool disponible;
     for(int i = 0; i<30; i++)
     {
         disponible = true;
-        for(int j = 0; j<30-contadorVenta; j++)
+        for(int j = 0; j<30-*contadorVentas; j++)
         {
-            if(producto[i] == productoVenta[j] && producto[i]== "")
+            if(NombresProductos[i]== "")
             {
-               
                 disponible = false;
                 break;
             }
-            else if(producto[i] == productoVenta[j])
+            else if(NombresProductos[i] == NombresElegidos[j])
             {
                 cout<<i+1<<"- "<<"Producto agotado"<<endl;
                 disponible = false;
@@ -115,35 +111,35 @@ void mostrarProductosDisponibles()
         }
         if(disponible)
         {
-            cout << i + 1 << "- " << producto[i] << " $" << costo[i] << endl;
+            cout << i + 1 << "- " << NombresProductos[i] << " $" << costo[i] << endl;
         }
     }
 }
 
 // Función para crear una venta
-void creacionVenta()
+void creacionVenta(int *contador, string *nombrePVender, string *productosNombres, float *cantidad, float *costos, float *inventario)
 {
-    int indiceProducto, cantidad, nuevoProducto;
+    int indiceProducto, cantidades, nuevoProducto, contadorVentas = 0;
     do
     {
-        if (contadorVenta < 30)
+        if (contadorVentas < 30)
         {
-            if(contadorVenta == contador)
+            if(contadorVentas == *contador)
             {
                 cout<<"ya no hay mas productos disponibles"<<endl;
                 nuevoProducto = 0;
             }
             else{
-            mostrarProductosDisponibles();
+            mostrarProductosDisponibles(&contadorVentas, productosNombres, nombrePVender, costos);
             cout << "Qué deseas comprar: " << endl;
             cin >> indiceProducto;
             cout << "Cuántos deseas comprar: " << endl;
-            cin >> cantidad;
-
+            cin >> cantidades;
+            inventario[indiceProducto-1] = inventario[indiceProducto-1] - cantidades; //quitando del inventario lo solicitado
             // Registrar el producto y el costo total de la compra
-            productoVenta[contadorVenta] = producto[indiceProducto - 1];
-            cantidadVenta[contadorVenta] = cantidad * costo[indiceProducto - 1];
-            contadorVenta++;
+            nombrePVender[contadorVentas] = productosNombres[indiceProducto - 1]; //nombre del producto se registra
+            cantidad[contadorVentas] = cantidades * costos[indiceProducto - 1]; //cantidad * costo
+            contadorVentas++;
 
             cout << "Deseas agregar un nuevo producto a la compra 1-Si / 2-No" << endl;
             cin >> nuevoProducto;
@@ -156,9 +152,9 @@ void creacionVenta()
             nuevoProducto = 0;
         }
     } while (nuevoProducto == 1);
-    cobroVenta();
-    finalizarVentaSistema(); //reinicia las variables a sus estado original
-}*/
+    cobroVenta(&contadorVentas, nombrePVender, cantidad);
+    finalizarVentaSistema(nombrePVender, cantidad); //reinicia las variables a sus estado original
+}
 
 int main()
 {
@@ -189,20 +185,16 @@ int main()
             agregarProducto(producto[0], productos[0], productos[1], &contador, tamanoTienda);
             break;
         case 2:
-           // creacionVenta();
+            creacionVenta(&contador, producto[1], producto[0], productos[2], productos[0], productos[1]);
             break;
         case 3:
-            //mostrar(producto[0], productos[0], productos[1], contador);
-            for(int i=0;i<contador;i++)
-            {
-                cout<<producto[0][i]<<endl;
-            }
+            mostrar(producto[0], productos[0], productos[1], contador);
             break;
         case 4:
-            //modificarNombre();
+            modificarNombre(producto[0], productos[0], productos[1], contador);
             break;
         case 5:
-           // modificarCosto();
+            modificarCosto(producto[0], productos[0], productos[1], contador);
             break;
         case 6:
            // eleminarProducto();
