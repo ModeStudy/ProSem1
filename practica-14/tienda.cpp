@@ -1,42 +1,41 @@
 #include<iostream>
 using namespace std;
 
-string producto[30];
-float costo[30];
-int contador = 0;
-
-// Declaraciones de arrays de venta
-string productoVenta[30];
-int cantidadVenta[30];
-int contadorVenta = 0;
-
 // Función para agregar un producto al catálogo
-void agregarProducto()
+void agregarProducto(string *nombre,float *costo,float *inventario,int *contador, int tamano)
 {
-    if (contador < 30)
+
+    if (*contador < tamano)
     {
+
         cout << "Nombre del producto que deseas agregar: " << endl;
-        getline(cin, producto[contador]);
-        cout << "Costo del producto: " << endl;
-        cin >> costo[contador];
         cin.ignore();
-        contador++;
+        getline(cin, *(nombre + *contador));
+        cout << "Costo del producto: " << endl;
+        cin >>*(costo + *contador);
+        cout<<"Cuantas unidades deseas agregar al inventario"<<endl;
+        cin>>*(inventario + *contador);
+        *contador = *contador + 1;
+        cin.ignore();
     }
     else
         cout << "Ya se llenó la lista" << endl;
 }
 
 // Función para mostrar el catálogo de productos
-void mostrar()
+void mostrar(string *nombre,float *costo,float *inventario,int contador)
 {
+    cout<<"si me llamo y contador vale"<<contador<<endl;
     for (int i = 0; i < contador; i++)
     {
-        cout << i + 1 << "- " << producto[i] << " $" << costo[i] << endl;
+        
+        cout << i + 1 << "- " << nombre[i] << " $" << costo[i] <<" existencia: "<<inventario[i] << endl;
     }
 }
 
 // Función para eliminar un producto del catálogo
 
+/*
 void eleminarProducto()
 {
     int indiceProducto;
@@ -159,10 +158,16 @@ void creacionVenta()
     } while (nuevoProducto == 1);
     cobroVenta();
     finalizarVentaSistema(); //reinicia las variables a sus estado original
-}
+}*/
 
 int main()
 {
+    string producto[2][30]; // 0: producto 1: producto elegido para la venta
+    float productos[3][30]; // 0: costo, 1: inventario  2: cantidad venta
+    int contador = 0; //cuenta cuantos productos se han agregado a la tienda
+    int contadorVenta = 0;
+    int tamanoTienda=30; //determina cuantos productos puedo guardar
+
     int menu = 1;
     while (menu != 0)
     {
@@ -181,22 +186,26 @@ int main()
             cout << "Adiós :(" << endl;
             break;
         case 1:
-            agregarProducto();
+            agregarProducto(producto[0], productos[0], productos[1], &contador, tamanoTienda);
             break;
         case 2:
-            creacionVenta();
+           // creacionVenta();
             break;
         case 3:
-            mostrar();
+            //mostrar(producto[0], productos[0], productos[1], contador);
+            for(int i=0;i<contador;i++)
+            {
+                cout<<producto[0][i]<<endl;
+            }
             break;
         case 4:
-            modificarNombre();
+            //modificarNombre();
             break;
         case 5:
-            modificarCosto();
+           // modificarCosto();
             break;
         case 6:
-            eleminarProducto();
+           // eleminarProducto();
             break;
         default:
             break;
