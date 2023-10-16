@@ -43,9 +43,20 @@ void eleminarProducto(string *nombre,float *costo,float *inventario,int contador
     // Marcar el producto como "ELIMINADO" y establecer su costo a 0
     nombre[indiceProducto - 1] = "ELIMINADO";
     costo[indiceProducto - 1] = 0;
+    inventario[indiceProducto -1] = 0;
 }
 
 // Función para modificar el costo de un producto en el catálogo
+void modificarInventario(string *nombre,float *costo,float *inventario,int contador)
+{
+    int indiceProducto;
+    mostrar(nombre, costo, inventario, contador);
+    cout << "De que producto deseas modificar el inventario: " << endl;
+    cin >> indiceProducto;
+    cout << "Cual es el nuevo valor de inventario: " << endl;
+    cin >> inventario[indiceProducto - 1];
+}
+
 void modificarCosto(string *nombre,float *costo,float *inventario,int contador)
 {
     int indiceProducto;
@@ -133,12 +144,17 @@ void creacionVenta(int *contador, string *nombrePVender, string *productosNombre
             cin >> indiceProducto;
             cout << "Cuántos deseas comprar: " << endl;
             cin >> cantidades;
+            if(inventario[indiceProducto-1] >=cantidades && inventario[indiceProducto-1] != 0) //si tenemos inventario se hace la compra
+            {
             inventario[indiceProducto-1] = inventario[indiceProducto-1] - cantidades; //quitando del inventario lo solicitado
-            // Registrar el producto y el costo total de la compra
             nombrePVender[contadorVentas] = productosNombres[indiceProducto - 1]; //nombre del producto se registra
             cantidad[contadorVentas] = cantidades * costos[indiceProducto - 1]; //cantidad * costo
             contadorVentas++;
+            }
+            else{
+                cout<<"no contamos con esa cantidad, no se agrego el producto a la cuenta"<<endl;
 
+            }
             cout << "Deseas agregar un nuevo producto a la compra 1-Si / 2-No" << endl;
             cin >> nuevoProducto;
             }
@@ -170,7 +186,8 @@ int main()
         cout << "3. Imprimir catálogo de productos" << endl;
         cout << "4. Modificar descripción del producto" << endl;
         cout << "5. Modificar precio de un producto" << endl;
-        cout << "6. Eliminar producto" << endl;
+        cout << "6. Modificar inventario de un producto" << endl;
+        cout << "7. Eliminar producto" << endl;
         cout << "0. Salir" << endl;
         cin >> menu;
         cin.ignore();
@@ -195,6 +212,9 @@ int main()
             modificarCosto(producto[0], productos[0], productos[1], contador);
             break;
         case 6:
+           eleminarProducto(producto[0], productos[0], productos[1], contador);
+            break;
+        case 7:
            eleminarProducto(producto[0], productos[0], productos[1], contador);
             break;
         default:
