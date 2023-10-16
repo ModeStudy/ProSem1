@@ -9,14 +9,12 @@ void agregarProducto(string *nombre,float *costo,float *inventario,int *contador
     {
 
         cout << "Nombre del producto que deseas agregar: " << endl;
-        cin.ignore();
         getline(cin, *(nombre + *contador));
         cout << "Costo del producto: " << endl;
         cin >>*(costo + *contador);
         cout<<"Cuantas unidades deseas agregar al inventario"<<endl;
         cin>>*(inventario + *contador);
         *contador = *contador + 1;
-        cin.ignore();
     }
     else
         cout << "Ya se llenó la lista" << endl;
@@ -89,7 +87,7 @@ void cobroVenta(int *contadorVenta, string *productoVenta, float *cantidadVenta)
     cout << "Importe: $" << costoTotal << endl;
 }
 
-void mostrarProductosDisponibles(int *contadorVentas, string *NombresProductos, string *NombresElegidos, float *costo)
+void mostrarProductosDisponibles(int *contadorVentas, string *NombresProductos, string *NombresElegidos, float *costo, float *inventario)
 {
     bool disponible;
     for(int i = 0; i<30; i++)
@@ -102,7 +100,7 @@ void mostrarProductosDisponibles(int *contadorVentas, string *NombresProductos, 
                 disponible = false;
                 break;
             }
-            else if(NombresProductos[i] == NombresElegidos[j])
+            else if(NombresProductos[i] == NombresElegidos[j] || inventario[i] == 0)
             {
                 cout<<i+1<<"- "<<"Producto agotado"<<endl;
                 disponible = false;
@@ -130,7 +128,7 @@ void creacionVenta(int *contador, string *nombrePVender, string *productosNombre
                 nuevoProducto = 0;
             }
             else{
-            mostrarProductosDisponibles(&contadorVentas, productosNombres, nombrePVender, costos);
+            mostrarProductosDisponibles(&contadorVentas, productosNombres, nombrePVender, costos, inventario);
             cout << "Qué deseas comprar: " << endl;
             cin >> indiceProducto;
             cout << "Cuántos deseas comprar: " << endl;
@@ -197,9 +195,10 @@ int main()
             modificarCosto(producto[0], productos[0], productos[1], contador);
             break;
         case 6:
-           // eleminarProducto();
+           eleminarProducto(producto[0], productos[0], productos[1], contador);
             break;
         default:
+            cout<<"esa no es una opcion pillin"<<endl;
             break;
         }
     }
