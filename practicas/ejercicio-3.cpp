@@ -12,4 +12,5 @@ int main()
         cout<<"es par"<<endl;
     else
         cout<<"no es par"<<endl;
+    return 0;
 }
