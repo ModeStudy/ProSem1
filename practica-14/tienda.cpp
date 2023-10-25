@@ -7,6 +7,15 @@ struct producto
     float costo;
     int inventario;
 };
+
+struct ventaProducto
+{
+    string nombre;
+    float costo, costoTotal;
+    int cantidad;
+};
+
+
 // Función para agregar un producto al catálogo
 void agregarProducto(producto *tienda, int tamanoTienda, int *contador)
 {
@@ -31,6 +40,24 @@ void mostrar(producto *tienda, int tamanoTienda, int *contador)
     {
         
         cout << i + 1 << "- "<< tienda[i].nombre << "\t$" << tienda[i].costo <<"\texistencia: "<<tienda[i].inventario << endl;
+    }
+}
+void mostrar(producto *tienda, ventaProducto *listacompras, int tamanoTienda, int *contador, int *contadorVenta)
+{
+    bool productoDisponible;
+    for (int i = 0; i < *contador; i++)
+    {
+        productoDisponible = true;
+        for(int j= 0; j<*contadorVenta;i++)
+        {
+            if(tienda[i].nombre == listacompras[j].nombre)
+            {
+                productoDisponible = false;
+                break;
+            }
+        }
+        if(productoDisponible)
+            cout << i + 1 << "- "<< tienda[i].nombre << "\t$" << tienda[i].costo <<"\texistencia: "<<tienda[i].inventario << endl;
     }
 }
 
@@ -71,6 +98,8 @@ void modificarCosto(producto *tienda, int tamanoTienda, int *contador)
 void modificarNombre(producto *tienda, int tamanoTienda, int *contador)
 {
     int indiceProducto;
+
+
     mostrar(tienda, tamanoTienda, contador);
     cout << "Cuál nombre deseas modificar: " << endl;
     cin >> indiceProducto;
@@ -79,12 +108,36 @@ void modificarNombre(producto *tienda, int tamanoTienda, int *contador)
     getline(cin, tienda[indiceProducto - 1].nombre);
 }
 
+void creacionVenta(ventaProducto *listaCompras, producto *productos, int *contadorVenta, int *contador, int tamanoTienda)
+{
+    int cantidad, desicion;
+    
+        mostrar(productos, listaCompras, tamanoTienda, contador, contadorVenta);
+        cout<<endl<<"Que producto deseas agregar"<<endl;
+        cin>>desicion;
+        cout<<"Cuantos deseas agregar ";
+        cin>>cantidad;
+        productos[desicion-1].inventario -= cantidad;
+        listaCompras[*contadorVenta].nombre = productos[desicion-1].nombre;
+        listaCompras[*contadorVenta].costo = productos[desicion-1].costo;
+        listaCompras[*contadorVenta].cantidad = cantidad;
+        listaCompras[*contadorVenta].costoTotal = listaCompras[*contadorVenta].costo*cantidad;
+        cout<<"Cuenta total"<<endl;
+        cout<<listaCompras[*contadorVenta].nombre<<endl;
+        cout<<"$"<<listaCompras[*contadorVenta].costo<<endl;
+        cout<<"cantidad "<<listaCompras[*contadorVenta].cantidad<<endl;
+        cout<<"Total $"<<listaCompras[*contadorVenta].costoTotal<<endl;
+        *contadorVenta=0;
+
+}
+
 int main()
 {
     int contador = 0; //cuenta cuantos productos se han agregado a la tienda
     int contadorVenta = 0;
     int tamanoTienda=30; //determina cuantos productos puedo guardar
     producto tienda[tamanoTienda];
+    ventaProducto ventas[tamanoTienda];
 
     int menu = 1;
     while (menu != 0)
@@ -108,7 +161,7 @@ int main()
             agregarProducto(tienda, tamanoTienda,&contador);
             break;
         case 2:
-            //creacionVenta(tienda, tamanoTienda,&contador));
+            creacionVenta(ventas, tienda, &contadorVenta ,&contador, tamanoTienda);
             break;
         case 3:
             mostrar(tienda, tamanoTienda, &contador);
@@ -132,5 +185,3 @@ int main()
     }
     return 0;
 }
-
-
