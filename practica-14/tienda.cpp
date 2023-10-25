@@ -25,6 +25,60 @@ void agregarProducto(producto *tienda, int tamanoTienda, int *contador)
     else
         cout << "Ya se llenó la lista" << endl;
 }
+void mostrar(producto *tienda, int tamanoTienda, int *contador)
+{
+    for (int i = 0; i < *contador; i++)
+    {
+        
+        cout << i + 1 << "- "<< tienda[i].nombre << "\t$" << tienda[i].costo <<"\texistencia: "<<tienda[i].inventario << endl;
+    }
+}
+
+void eliminarProducto(producto *tienda, int tamanoTienda, int *contador)
+{
+    int indiceProducto;
+    mostrar(tienda, tamanoTienda, contador);
+    cout << "Cuál deseas eliminar: " << endl;
+    cin >> indiceProducto;
+
+    // Marcar el producto como "ELIMINADO" y establecer su costo a 0
+    tienda[indiceProducto - 1].nombre = "ELIMINADO";
+    tienda[indiceProducto - 1].costo = 0;
+    tienda[indiceProducto -1].inventario = 0;
+}
+
+void modificarInventario(producto *tienda, int tamanoTienda, int *contador)
+{
+    int indiceProducto;
+    mostrar(tienda, tamanoTienda, contador);
+    cout << "De que producto deseas modificar el inventario: " << endl;
+    cin >> indiceProducto;
+    cout << "Cual es el nuevo valor de inventario: " << endl;
+    cin >> tienda[indiceProducto - 1].inventario;
+}
+
+void modificarCosto(producto *tienda, int tamanoTienda, int *contador)
+{
+    int indiceProducto;
+       mostrar(tienda, tamanoTienda, contador);
+    cout << "Cuál costo deseas modificar: " << endl;
+    cin >> indiceProducto;
+    cout << "Qué precio deseas asignar: " << endl;
+    cin >> tienda[indiceProducto - 1].costo;
+}
+
+// Función para modificar el nombre de un producto en el catálogo
+void modificarNombre(producto *tienda, int tamanoTienda, int *contador)
+{
+    int indiceProducto;
+    mostrar(tienda, tamanoTienda, contador);
+    cout << "Cuál nombre deseas modificar: " << endl;
+    cin >> indiceProducto;
+    cout << "Qué nombre deseas asignar: " << endl;
+    cin.ignore();
+    getline(cin, tienda[indiceProducto - 1].nombre);
+}
+
 int main()
 {
     int contador = 0; //cuenta cuantos productos se han agregado a la tienda
@@ -54,22 +108,22 @@ int main()
             agregarProducto(tienda, tamanoTienda,&contador);
             break;
         case 2:
-            //creacionVenta(&contador, producto[1], producto[0], productos[2], productos[0], productos[1]);
+            //creacionVenta(tienda, tamanoTienda,&contador));
             break;
         case 3:
-            //mostrar(producto[0], productos[0], productos[1], contador);
+            mostrar(tienda, tamanoTienda, &contador);
             break;
         case 4:
-            //modificarNombre(producto[0], productos[0], productos[1], contador);
+            modificarNombre(tienda, tamanoTienda, &contador);
             break;
         case 5:
-            //modificarCosto(producto[0], productos[0], productos[1], contador);
+            modificarCosto(tienda, tamanoTienda, &contador);
             break;
         case 6:
-           //eleminarProducto(producto[0], productos[0], productos[1], contador);
+           modificarInventario(tienda, tamanoTienda, &contador);
             break;
         case 7:
-           //eleminarProducto(producto[0], productos[0], productos[1], contador);
+            eliminarProducto(tienda, tamanoTienda, &contador);
             break;
         default:
             cout<<"esa no es una opcion pillin"<<endl;
