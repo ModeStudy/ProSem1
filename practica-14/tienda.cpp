@@ -10,7 +10,7 @@ struct producto
 
 struct ventaProducto
 {
-    string nombre;
+    string nombre, inutil;
     float costo, costoTotal;
     int cantidad;
 };
