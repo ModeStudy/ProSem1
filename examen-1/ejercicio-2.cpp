@@ -8,4 +8,4 @@ int main()
     cin>>num;
     cout<<"el cubo del numero ingresado es: "<<num*num*num<<endl;
     return 0;
-}
+}yolo
