@@ -11,4 +11,4 @@ int main()
 
     cout<<"la suma es "<<num1+num2<<endl; 
     return 0;
-}
+}//el examen me hizo pensar
