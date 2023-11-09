@@ -16,7 +16,7 @@ void registrarLibro(libro*, int*);
 void registrarUsuario(usuario*, int*);
 
 void editarUsuario(usuario*, int*);
-void editarLibro(usuario*, int*);
+void editarLibro(libro*, int*);
 
 int verUsuarios(usuario*, int*);
 
@@ -176,5 +176,73 @@ void prestarLibro(libro *biblioteca, int *ID, usuario *usuarios, int *ID_US)
         cin>>opc;
         biblioteca[opc].usuario = usuarios[usuario].nombre;
         cout<<"libro solicitado exitosamente"<<endl;
+    }
+}
+
+void editarUsuario(usuario *usuarios, int *ID)
+{
+    int opc;
+    int usuario = verUsuarios(usuarios, ID);
+    if(usuario != -1)
+    {
+        cout<<"Los datos asociados con ese usuario son los siguientes"<<endl;
+        cout<<"1. "<<usuarios[usuario].nombre<<endl;
+        cout<<"2. "<<usuarios[usuario].correo<<endl;
+        cout<<"3. "<<usuarios[usuario].telefono<<endl;
+        cout<<"¿Que deseas modificar 1/2/3? ";
+        cin>>opc;
+        cin.ignore();
+        switch (opc)
+        {
+        case 1:
+            cout<<"¿Cual es el nuevo nombre? ";
+            getline(cin, usuarios[usuario].nombre);
+            break;
+        case 2:
+            cout<<"¿Cual es el nuevo correo? ";
+            getline(cin, usuarios[usuario].correo);
+            break;
+        case 3:
+            cout<<"¿Cual es el nuevo telefono? ";
+            cin>>usuarios[usuario].telefono;
+            break;
+        default:
+            cout<<"Eso no existe :D";
+            break;
+        }
+    }
+}
+
+void editarLibro(libro *biblioteca, int *ID)
+{
+    int opc;
+    if(*ID > 0)
+    {
+        verLibrosTodos(biblioteca, ID);
+        cout<<"Cual libro deseas modificar ";
+        cin>>opc;
+        cout<<"Los datos asociados con ese libro son los siguientes"<<endl;
+        cout<<"1. "<<biblioteca[opc].autor<<endl;
+        cout<<"2. "<<biblioteca[opc].titulo<<endl;
+        cout<<"¿Que deseas modificar 1/2? ";
+        cin>>opc;
+        cin.ignore();
+        switch (opc)
+        {
+        case 1:
+            cout<<"¿Quien es el nuevo autor? ";
+            getline(cin, biblioteca[opc].autor);
+            break;
+        case 2:
+            cout<<"¿Cual es el titulo nuevo? ";
+            getline(cin, biblioteca[opc].titulo);
+            break;
+        default:
+            cout<<"Eso no existe :D";
+            break;
+        }
+    }
+    else{
+        cout<<"No tenemos existencia de libros"<<endl;
     }
 }
