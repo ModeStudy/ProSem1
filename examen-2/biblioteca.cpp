@@ -25,12 +25,14 @@ void verLibrosTodos(libro*, int*);
 void verLibrosDisponibles(libro*, int*);
 void verLibrosOcupados(libro*, int*);
 
-void prestarLibro(libro*, int*, usuario*, int*);
+void prestarLibro(libro*, int*, usuario*, int*, int*);
+void entregarLibro(libro*, int*, int*);
+
 
 
 int main()
 {
-    int ID_biblioteca=0, ID_usuario=0,opc;
+    int ID_biblioteca=0, ID_usuario=0,opc, librosPrestados = 0;
     libro biblioteca[30];
     usuario usuarios[30];
 
@@ -45,6 +47,7 @@ int main()
         cout<<"6. Editar Libro"<<endl;
         cout<<"7. Editar Usuario"<<endl;
         cout<<"8. Prestar Libro"<<endl;
+        cout<<"9. Devolver Libro"<<endl;
         cout<<"0. Salir."<<endl;
         cout<<endl<<endl;
         cin>>opc;
@@ -66,11 +69,16 @@ int main()
             registrarUsuario(usuarios, &ID_usuario);
             break;
         case 6:
+            editarLibro(biblioteca, &ID_biblioteca);
             break;
         case 7:
+            editarUsuario(usuarios, &ID_usuario);
             break;
         case 8:
-            prestarLibro(biblioteca, &ID_biblioteca, usuarios, &ID_usuario);
+            prestarLibro(biblioteca, &ID_biblioteca, usuarios, &ID_usuario, &librosPrestados);
+            break;
+        case 9:
+            entregarLibro(biblioteca, &ID_biblioteca, &librosPrestados);
             break;
         default:
             cout<<"Esa no es una opción valida pillin :D"<<endl;
@@ -121,10 +129,10 @@ void verLibrosDisponibles(libro *librosDisponibles, int *ID)
 
 void verLibrosTodos(libro *biblioteca, int *ID)
 {
-    cout<<"ID"<<"\tAutor"<<"\ttitulo"<<endl; 
+    cout<<"ID"<<"\tAutor"<<"\ttitulo"<<"\tDisponibilidad"<<endl; 
     for(int i= 0; i<*ID; i++)
     {
-        cout<<i<<"\t"<<biblioteca[i].titulo<<" \t"<<biblioteca[i].autor<<endl;
+        cout<<i<<"\t"<<biblioteca[i].autor<<" \t"<<biblioteca[i].titulo<<"\t"<<biblioteca[i].usuario<<endl;
     }
 }
 
@@ -164,7 +172,7 @@ int verUsuarios(usuario *usuarios, int *ID)
     
 }
 
-void prestarLibro(libro *biblioteca, int *ID, usuario *usuarios, int *ID_US)
+void prestarLibro(libro *biblioteca, int *ID, usuario *usuarios, int *ID_US, int *librosPrestados)
 {
 
     int usuario = verUsuarios(usuarios, ID_US);
@@ -176,7 +184,22 @@ void prestarLibro(libro *biblioteca, int *ID, usuario *usuarios, int *ID_US)
         cin>>opc;
         biblioteca[opc].usuario = usuarios[usuario].nombre;
         cout<<"libro solicitado exitosamente"<<endl;
+        *librosPrestados = *librosPrestados + 1;
     }
+}
+void entregarLibro(libro *biblioteca, int *ID, int *librosPrestados)
+{
+    if(*librosPrestados > 0 )
+    {
+        verLibrosOcupados(biblioteca, ID);
+        int opc;
+        cout<<"Cual libro deseas devolver ";
+        cin>>opc;
+        biblioteca[opc].usuario = "Null";
+        cout<<"libro devuelto exitosamente"<<endl;
+        *librosPrestados = *librosPrestados - 1;
+    }
+    
 }
 
 void editarUsuario(usuario *usuarios, int *ID)
@@ -186,9 +209,9 @@ void editarUsuario(usuario *usuarios, int *ID)
     if(usuario != -1)
     {
         cout<<"Los datos asociados con ese usuario son los siguientes"<<endl;
-        cout<<"1. "<<usuarios[usuario].nombre<<endl;
-        cout<<"2. "<<usuarios[usuario].correo<<endl;
-        cout<<"3. "<<usuarios[usuario].telefono<<endl;
+        cout<<"1. Nombre"<<usuarios[usuario].nombre<<endl;
+        cout<<"2. Correo"<<usuarios[usuario].correo<<endl;
+        cout<<"3. Telefono"<<usuarios[usuario].telefono<<endl;
         cout<<"¿Que deseas modificar 1/2/3? ";
         cin>>opc;
         cin.ignore();
@@ -215,19 +238,19 @@ void editarUsuario(usuario *usuarios, int *ID)
 
 void editarLibro(libro *biblioteca, int *ID)
 {
-    int opc;
+    int opc, opc2;
     if(*ID > 0)
     {
         verLibrosTodos(biblioteca, ID);
         cout<<"Cual libro deseas modificar ";
         cin>>opc;
         cout<<"Los datos asociados con ese libro son los siguientes"<<endl;
-        cout<<"1. "<<biblioteca[opc].autor<<endl;
-        cout<<"2. "<<biblioteca[opc].titulo<<endl;
+        cout<<"1. Autor: "<<biblioteca[opc].autor<<endl;
+        cout<<"2. Titulo: "<<biblioteca[opc].titulo<<endl;
         cout<<"¿Que deseas modificar 1/2? ";
-        cin>>opc;
+        cin>>opc2;
         cin.ignore();
-        switch (opc)
+        switch (opc2)
         {
         case 1:
             cout<<"¿Quien es el nuevo autor? ";
